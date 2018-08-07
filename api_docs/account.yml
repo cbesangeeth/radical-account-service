@@ -1,0 +1,281 @@
+    swagger: '2.0'
+    info:
+      description: 'This api docs manages endpoints for account related'
+      version: 1.0.0
+      title: Radical Account Microservice
+      contact:
+        email: cbe.sangeeth@gmail.com
+      license:
+        name: Apache 2.0
+        url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    host: localhost:8084
+    basePath: /account/v1
+    tags:
+      - name: users
+        description: Operations about users
+    schemes:
+      - https
+    paths:
+      /users:
+        post:
+          tags:
+            - users
+          summary: Add a new user
+          description: |
+            * Add a  new user
+          operationId: addUser
+          consumes:
+            - application/json
+          produces:
+            - application/json
+          parameters:
+            - in: body
+              name: body
+              description: User object that needs to be added
+              required: true
+              schema:
+                $ref: '#/definitions/InputUser'
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                $ref: '#/definitions/OutputUser'
+            '400':
+              description: Invalid input
+              schema:
+                $ref: '#/definitions/ErrorInvalid'
+    securityDefinitions:
+      X-Jwt-Token:
+        type: apiKey
+        name: X-Jwt-Token
+        in: header
+    definitions:
+      200ResponseWithNoData:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 200
+          error:
+            type: object
+          data:
+            type: object
+      InvalidDetails:
+        type: object
+        properties:
+          code:
+            type: string
+            example: NULL_VALUE
+          target:
+            type: string
+            example: name
+          message:
+            type: string
+            example: '{fieldname}s field required'
+      Invalid:
+        type: object
+        properties:
+          code:
+            type: string
+            example: INVALID_ARGUMENT
+          message:
+            type: string
+            example: Some fields are wrong
+          details:
+            type: array
+            items:
+              $ref: '#/definitions/InvalidDetails'
+      BadRequest:
+        type: object
+        properties:
+          code:
+            type: string
+            example: BAD_REQUEST
+          message:
+            type: string
+            example: 'Bad request message'
+      NotFound:
+        type: object
+        properties:
+          code:
+            type: string
+            example: NOT_FOUND
+          message:
+            type: string
+            example: '{resource} with {id} not found'
+      InvalidToken:
+        type: object
+        properties:
+          code:
+            type: string
+            example: UNAUTHENTICATED
+          message:
+            type: string
+            example: Invalid token
+      InvalidURL:
+        type: "object"
+        properties:
+          code:
+            type: string
+            example: "PERMISSION_DENIED"
+          message:
+            type: "string"
+            example: "PERMISSION_DENIED"
+      ErrorInvalid:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 400
+          error:
+            $ref: '#/definitions/Invalid'
+          data:
+            type: object
+      ErrorBadRequest:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 400
+          error:
+            $ref: '#/definitions/BadRequest'
+          data:
+            type: object
+      ErrorNotFound:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 404
+          error:
+            $ref: '#/definitions/NotFound'
+          data:
+            type: object
+      UnprocessableEntity:
+        type: "object"
+        properties:
+          code:
+            type: string
+            example: "UNPROCESSABLE ENTITY"
+          message:
+            type: "string"
+            example: "Unprocessable entity"
+      ErrorUnprocessableEntity:
+        type: "object"
+        properties:
+          status:
+            type: "integer"
+            format: "int32"
+            example: 422
+          error:
+            $ref: "#/definitions/UnprocessableEntity"
+          data:
+            type: "object"
+      ErrorInvalidToken:
+        type: "object"
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 401
+          error:
+            $ref: '#/definitions/InvalidToken'
+          data:
+            type: object
+      ErrorInvalidUrl:
+        type: "object"
+        properties:
+          status:
+            type: "integer"
+            format: "int32"
+            example: 403
+          error:
+            $ref: "#/definitions/InvalidURL"
+          data:
+            type: "object"
+      Pagination:
+        type: "object"
+        properties:
+          pageNumber:
+            type: "integer"
+            example: 1
+          pageSize:
+            type: "integer"
+            example: 100
+          totalCount:
+            type: "integer"
+            example: 350
+          totalPages:
+            type: "integer"
+            example: 4
+          isFirst:
+            type: "boolean"
+            example: true
+          isLast:
+            type: "boolean"
+            example: false
+      InputUser:
+        type: object
+        properties:
+          user:
+            type: object
+            required:
+              - firstName
+              - email
+              - password
+            properties:
+              firstName:
+                type: string
+              lastName:
+                type: string
+              email:
+                type: string
+              password:
+                type: string
+      OutputUser:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 200
+          error:
+            type: object
+          data:
+            type: object
+            properties:
+              user:
+                $ref: '#/definitions/User'
+      User:
+        type: object
+        properties:
+          id:
+            type: number
+            format: int64
+          firstName:
+            type: string
+          lastName:
+            type: string
+          email:
+            type: string
+          createdTime:
+            type: string
+            format: date-time
+          updatedTime:
+            type: string
+            format: date-time
+          loginAt:
+            type: string
+            format: date-time
+          loginCount:
+            type: integer
+            format: int32
+            example: 5
+          isActive:
+            type: boolean
+            description: Active or not
+            example: true
