@@ -1,0 +1,21 @@
+{
+    "name": "radical-service",
+    "version": "0.0.1",
+    "description": "Radical service",
+    "scripts": {
+        "start:dev": "NODE_ENV=development bootstrap/api | bunyan"
+    },
+    "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
+    "license": "ISC",
+    "devDependencies": {
+        "mocha": "^5.2.0",
+        "nodemon": "^1.18.3",
+        "supertest": "^3.1.0"
+    },
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "bunyan": "^1.8.12",
+        "express": "^4.16.3",
+        "lodash": "^4.17.10"
+    }
+}

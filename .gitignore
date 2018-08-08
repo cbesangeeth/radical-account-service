@@ -1,11 +1,7 @@
 ### General ###
-/target
+/node_modules
 /logs
 *.log
-.classpath
-.project
-.settings/*
 
-### STS ###
-.settings
-.apt_generated
+### VS Code ###
+/.vscode
