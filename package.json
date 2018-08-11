@@ -1,0 +1,25 @@
+{
+    "name": "radical-service",
+    "version": "0.0.1",
+    "description": "Radical service",
+    "scripts": {
+        "start:dev": "NODE_ENV=development nodemon bootstrap/api.js | bunyan",
+        "test": "NODE_ENV=development mocha --full-trace --bail --check-leaks --reporter list --timeout 80000 --recursive --exit test --reporter=list --reporter-options output=reports/TESTS-xunit.xml"
+    },
+    "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
+    "license": "ISC",
+    "devDependencies": {
+        "chai": "^4.1.2",
+        "mocha": "^5.2.0",
+        "nodemon": "^1.18.3",
+        "supertest": "^3.1.0"
+    },
+    "dependencies": {
+        "bluebird": "^3.5.1",
+        "body-parser": "^1.18.3",
+        "bunyan": "^1.8.12",
+        "express": "^4.16.3",
+        "express-request-id": "^1.4.0",
+        "lodash": "^4.17.10"
+    }
+}
