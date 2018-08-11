@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "driver": "pg",
+        "database": "radical_db",
+        "user": "postgres",
+        "password": "root",
+        "host": "localhost"
+    },
+    "sql-file": true
+}
