@@ -5,7 +5,9 @@
 .classpath
 .project
 .settings/*
+node_modules/*
 
 ### STS ###
 .settings
 .apt_generated
+
