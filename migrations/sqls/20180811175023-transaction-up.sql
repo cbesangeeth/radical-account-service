@@ -1,10 +1,10 @@
 CREATE TABLE "transaction" (
   "id" BIGSERIAL,
   "user_id" integer NOT NULL,
-  "transaction_date" date NOT NULL ,
-  "amount" integer NOT NULL,
+  "transaction_date" TIMESTAMPTZ NOT NULL ,
+  "amount" NUMERIC NOT NULL,
   "cash_flow_type_id" integer NOT NULL,
-  "current_balance" integer NOT NULL,
+  "current_balance" NUMERIC NOT NULL,
   "transaction_type_id" integer,
   "created_at" TIMESTAMPTZ default current_timestamp,
   "updated_at" TIMESTAMPTZ default current_timestamp,

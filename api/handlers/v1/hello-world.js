@@ -20,7 +20,7 @@ router.get('/', (req, res , next) =>{
         }
     }
 
-    req.app.get('log').info('hello', _.assign(req.app.get('logEntry'), {
+    req.app.get('log').info(_.assign(req.app.get('logEntry'), {
         'res'   : JSON.stringify(res.api),
         'status': res.api.status,
     }));

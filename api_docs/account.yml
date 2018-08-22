@@ -13,6 +13,8 @@
     tags:
       - name: users
         description: Operations about users
+      - name: transactions
+        description: Operations about transactions
     schemes:
       - https
     paths:
@@ -40,6 +42,34 @@
               description: successful operation
               schema:
                 $ref: '#/definitions/OutputUser'
+            '400':
+              description: Invalid input
+              schema:
+                $ref: '#/definitions/ErrorInvalid'
+      /transactions:
+        post:
+          tags:
+            - transactions
+          summary: Add or update transactions details
+          description: |
+            * Add or update transactions details
+          operationId: updateTransactions
+          consumes:
+            - application/json
+          produces:
+            - application/json
+          parameters:
+            - in: body
+              name: body
+              description: transaction object that needs to be added
+              required: true
+              schema:
+                $ref: '#/definitions/InputTransaction'
+          responses:
+            '200':
+              description: successful operation
+              schema:
+                $ref: '#/definitions/OutputTransactions'
             '400':
               description: Invalid input
               schema:
@@ -279,3 +309,64 @@
             type: boolean
             description: Active or not
             example: true
+      InputTransaction:
+        type: object
+        properties:
+          tranaction:
+            type: object
+            required:
+              - transactionDate
+              - cashFlowTypeId
+              - transactionType
+              - amount
+            properties:
+              transactionDate:
+                type: string
+                format: date-time
+              cashFlowTypeId:
+                type: number
+                example: 1
+              transactionType:
+                type: number
+                example: 1
+              amount:
+                type: number
+                example: 500
+      OutputTransactions:
+        type: object
+        properties:
+          status:
+            type: integer
+            format: int32
+            example: 200
+          error:
+            type: object
+          data:
+            type: object
+            properties:
+              transactions:
+                $ref: '#/definitions/Transactions'
+      Transactions:
+        type: object
+        properties:
+          transactionDate:
+            type: string
+            format: date-time
+          cashFlowTypeId:
+            type: number
+            example: 1
+          transactionTypeId:
+            type: number
+            example: 1
+          amount:
+            type: number
+            example: 500.00
+          currentBalance:
+            type: number
+            example: 1000.00
+          createdTime:
+            type: string
+            format: date-time
+          updatedTime:
+            type: string
+            format: date-time
