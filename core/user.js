@@ -94,7 +94,7 @@ module.exports = (cfg, db) => {
          * @return {Promise} Inserted transaction
          */
         static async getCurrentBalanceByUserId(userId) {
-            const sql = `SELECT current_balance FROM ${table}
+            const sql = `SELECT current_balance as currentbalance FROM "${table}"
             WHERE id=? and is_active =true limit 1`;
 
             const params = [
@@ -103,7 +103,7 @@ module.exports = (cfg, db) => {
 
             const response = await knex.raw(sql, params);
 
-            return response;
+            return _.head(response.rows).currentbalance;
         }
 
         /**
@@ -115,11 +115,12 @@ module.exports = (cfg, db) => {
          * @param  {Object} userId
          * @return {Promise} Inserted transaction
          */
-        static async getCurrentBalanceByUserId(userId, amount) {
-            const sql = `UPDATE ${table} SET current_balance = current_balance - amount
+        static async updateCurrentBalanceByUserId(userId, amount) {
+            const sql = `UPDATE "${table}" SET current_balance = current_balance + ?
             WHERE id=? and is_active =true`;
 
             const params = [
+                amount,
                 userId,
             ];
 

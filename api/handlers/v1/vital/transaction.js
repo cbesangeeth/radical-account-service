@@ -39,13 +39,7 @@ router.post('/', async (req, res, next) => {
         return res.json(res.api);
     }
 
-    // Current balance logic
-    let previousAmount;
-
-    previousAmount = await req.app.get('core').user.Repo.getCurrentBalanceByUserId(req.query.userId);
-    transaction.currentBalance = req.body.transaction.amount - previousAmount;
-
-    // Service call to save the transactions object
+    // Service call to save the transaction
     let insertedId;
 
     try {
@@ -59,7 +53,29 @@ router.post('/', async (req, res, next) => {
         'status': res.api.status,
     }));
 
-    res.api.data = {};
+    // update balance
+    try {
+        await req.app.get('core').user.Repo.updateCurrentBalanceByUserId(
+            req.query.userId ,
+            req.body.transaction.amount
+        );
+    } catch (err) {
+        return next(err);
+    }
+
+    // Get Current balance
+    let currentBalance;
+
+    try {
+        currentBalance = await req.app.get('core').user.Repo.getCurrentBalanceByUserId(req.query.userId);
+    } catch (err) {
+        return next(err);
+    }
+
+    transaction.currentBalance = currentBalance;
+    res.api.data = {
+        transaction
+    };
 
     return res.json(res.api);
 });
@@ -83,6 +99,10 @@ function validateAndBuild(req, transaction) {
         });
     }
 
+    if (errors.length ){
+        return errors;
+    }
+
     if (!req.body.transaction.transactionDate) {
         errors.push({
             'code'   : errorCode.NULL_VALUE,
@@ -98,7 +118,6 @@ function validateAndBuild(req, transaction) {
             'message': 'amount is required'
         });
     }
-
 
     if (!req.body.transaction.cashFlowTypeId) {
         errors.push({

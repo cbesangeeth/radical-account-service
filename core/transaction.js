@@ -35,17 +35,17 @@ module.exports = (cfg, db) => {
              */
             this.cashFlowTypeId = null;
 
-             /**
-             * @property currentBalance
-             * @type {number}
-             */
-            this.currentBalance = null;
-
             /**
              * @property amount
-             * @type {number}
+             * @type {numeric}
              */
             this.amount = null;
+
+            /**
+             * @property currentBalance
+             * @type {numeric}
+             */
+            this.currentBalance = null;
         }
     }
 
@@ -65,18 +65,19 @@ module.exports = (cfg, db) => {
          */
         static async save(transaction) {
             const sql = `INSERT INTO ${table}
-        (user_id, transaction_date, cash_flow_type_id, current_balance, amount, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?) returning id`;
+        (user_id, transaction_date, cash_flow_type_id, transaction_type_id, amount, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ? ,?) returning id`;
 
-            const params = [
-                transaction.userId,
-                transaction.transactionDate,
-                transaction.cashFlowTypeId,
-                transaction.currentBalance,
-                transaction.amount,
-                transaction.createdAt,
-                transaction.updatedAt,
-            ];
+        const params = [
+            transaction.userId,
+            transaction.transactionDate,
+            transaction.cashFlowTypeId,
+            transaction.transactionTypeId,
+            transaction.amount,
+            transaction.createdAt,
+            transaction.updatedAt,
+        ];
+        console.log(params);
 
             const response = await knex.raw(sql, params);
 

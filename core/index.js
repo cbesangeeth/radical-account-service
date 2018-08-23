@@ -6,6 +6,7 @@ const _ = require('lodash'),
     modules = [
         'mixins',
         'transaction',
+        'user',
     ];
 
 function init(cfg) {
