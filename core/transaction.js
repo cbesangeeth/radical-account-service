@@ -17,7 +17,7 @@ module.exports = (cfg, db) => {
              */
             this.userId = null;
 
-             /**
+            /**
              * @property transactionDate
              * @type {Date}
              */
@@ -68,16 +68,15 @@ module.exports = (cfg, db) => {
         (user_id, transaction_date, cash_flow_type_id, transaction_type_id, amount, created_at, updated_at)
         VALUES (?, ?, ?, ?, ?, ? ,?) returning id`;
 
-        const params = [
-            transaction.userId,
-            transaction.transactionDate,
-            transaction.cashFlowTypeId,
-            transaction.transactionTypeId,
-            transaction.amount,
-            transaction.createdAt,
-            transaction.updatedAt,
-        ];
-        console.log(params);
+            const params = [
+                transaction.userId,
+                transaction.transactionDate,
+                transaction.cashFlowTypeId,
+                transaction.transactionTypeId,
+                transaction.amount,
+                transaction.createdAt,
+                transaction.updatedAt,
+            ];
 
             const response = await knex.raw(sql, params);
 

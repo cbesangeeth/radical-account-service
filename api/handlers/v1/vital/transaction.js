@@ -57,7 +57,7 @@ router.post('/', async (req, res, next) => {
     try {
         await req.app.get('core').user.Repo.updateCurrentBalanceByUserId(
             req.query.userId ,
-            req.body.transaction.amount
+            transaction.amount
         );
     } catch (err) {
         return next(err);
@@ -73,6 +73,7 @@ router.post('/', async (req, res, next) => {
     }
 
     transaction.currentBalance = currentBalance;
+
     res.api.data = {
         transaction
     };
@@ -127,7 +128,6 @@ function validateAndBuild(req, transaction) {
         });
     }
 
-
     if (!req.body.transaction.transactionTypeId) {
         errors.push({
             'code'   : errorCode.NULL_VALUE,
@@ -136,18 +136,28 @@ function validateAndBuild(req, transaction) {
         });
     }
 
+    //
+    let amount;
+
+    switch(req.body.transaction.cashFlowTypeId){
+        case 1:     // expense
+            amount = -Math.abs(req.body.transaction.amount);
+            break;
+        default:
+            amount = req.body.transaction.amount;
+    }
+
     // avoid hitting db if there are errors
     if (!errors.length) {
         // building data
         transaction.userId            = req.query.userId;
         transaction.transactionDate   = req.body.transaction.transactionDate;
-        transaction.amount            = req.body.transaction.amount;
+        transaction.amount            = amount;
         transaction.cashFlowTypeId    = req.body.transaction.cashFlowTypeId;
         transaction.transactionTypeId = req.body.transaction.transactionTypeId;
         transaction.touch();
     }
 
-    console.log(transaction);
     return errors;
 }
 
