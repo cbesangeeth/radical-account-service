@@ -137,7 +137,9 @@ app.use(function (err, req, res, next) {
 
 
 app.listen(app.get('config').api.port, () =>{
-    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+    console.log('Listening on %s:%s',
+    app.get('config').api.host,
+    app.get('config').api.port);
 });
 
 log.info(
