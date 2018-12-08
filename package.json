@@ -11,6 +11,10 @@
         "migrate:down": "db-migrate down --config config/database.json",
         "migrate:reset": "db-migrate reset --config config/database.json"
     },
+    "engines": {
+        "node": "8.12.0",
+        "npm": "6.4.1"
+    },
     "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
     "license": "ISC",
     "devDependencies": {
