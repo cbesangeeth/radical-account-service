@@ -9,12 +9,12 @@ module.exports = {
     },
     db: {
         postgres:{
-            user    : db.prod.user,
-            password: db.prod.password,
-            database: db.prod.database,
-            host    : db.prod.host,
-            dialect : db.prod.driver,
-            port    : db.prod.port
+            user    : db.production.user,
+            password: db.production.password,
+            database: db.production.database,
+            host    : db.production.host,
+            dialect : db.production.driver,
+            port    : db.production.port
         },
     },
 };
