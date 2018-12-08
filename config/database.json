@@ -4,7 +4,16 @@
         "database": "radical_db",
         "user": "postgres",
         "password": "root",
-        "host": "localhost"
+        "host": "localhost",
+        "port": "5432"
+    },
+    "prod": {
+        "driver": "pg",
+        "database": "d8itk8hcd3orr6",
+        "user": "gpcvqrqygpytje",
+        "password": "9169d8f6fd0be57cf37759812fdc728daa4bab0909a9200e9ac81e71670430bb",
+        "host": "ec2-54-243-150-10.compute-1.amazonaws.com",
+        "port": "5432"
     },
     "sql-file": true
 }

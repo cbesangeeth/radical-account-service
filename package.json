@@ -4,11 +4,14 @@
     "description": "Radical service",
     "scripts": {
         "start:dev": "NODE_ENV=development nodemon bootstrap/api.js | bunyan",
+        "start": "NODE_ENV=production nodemon bootstrap/api.js | bunyan",
         "test": "NODE_ENV=development mocha --full-trace --bail --check-leaks --reporter list --timeout 80000 --recursive --exit test --reporter=list --reporter-options output=reports/TESTS-xunit.xml",
         "migrate:create": "db-migrate create $file --config config/database.json",
         "migrate:up": "db-migrate up --config config/database.json",
         "migrate:down": "db-migrate down --config config/database.json",
-        "migrate:reset": "db-migrate reset --config config/database.json"
+        "migrate:reset": "db-migrate reset --config config/database.json",
+        "heroku-postbuild": "npm run build",
+
     },
     "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
     "license": "ISC",
