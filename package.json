@@ -9,8 +9,7 @@
         "migrate:create": "db-migrate create $file --config config/database.json",
         "migrate:up": "db-migrate up --config config/database.json",
         "migrate:down": "db-migrate down --config config/database.json",
-        "migrate:reset": "db-migrate reset --config config/database.json",
-        "heroku-postbuild": "npm run build"
+        "migrate:reset": "db-migrate reset --config config/database.json"
     },
     "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
     "license": "ISC",
