@@ -10,8 +10,7 @@
         "migrate:up": "db-migrate up --config config/database.json",
         "migrate:down": "db-migrate down --config config/database.json",
         "migrate:reset": "db-migrate reset --config config/database.json",
-        "heroku-postbuild": "npm run build",
-
+        "heroku-postbuild": "npm run build"
     },
     "author": "Sangeeth Kumar S <cbe.sangeeth@gmail.com>",
     "license": "ISC",
