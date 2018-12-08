@@ -20,6 +20,8 @@ function init(cfg) {
                     user    : cfg.db.postgres.user,
                     password: cfg.db.postgres.password,
                     database: cfg.db.postgres.database,
+                    port    : cfg.db.postgres.port,
+                    ssl     : true,
                 },
                 debug: false
             }),

@@ -1,4 +1,5 @@
 {
+    "defaultEnv": {"ENV": "NODE_ENV"},
     "dev": {
         "driver": "pg",
         "database": "radical_db",
@@ -7,7 +8,7 @@
         "host": "localhost",
         "port": "5432"
     },
-    "prod": {
+    "production": {
         "driver": "pg",
         "database": "d8itk8hcd3orr6",
         "user": "gpcvqrqygpytje",
