@@ -1,5 +1,13 @@
 {
     "defaultEnv": {"ENV": "NODE_ENV"},
+    "local": {
+        "driver": "pg",
+        "database": "radical_db",
+        "user": "postgres",
+        "password": "root",
+        "host": "localhost",
+        "port": "5432"
+    },
     "dev": {
         "driver": "pg",
         "database": "radical_db",

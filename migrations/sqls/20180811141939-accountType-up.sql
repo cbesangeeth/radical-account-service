@@ -1,4 +1,4 @@
-CREATE TABLE "account_type" (
+/* CREATE TABLE "account_type" (
   "id" SERIAL,
   "name" VARCHAR(15) NOT NULL,
   "isCommon" BOOLEAN default false,
@@ -6,4 +6,4 @@ CREATE TABLE "account_type" (
   "description" VARCHAR(30),
   PRIMARY KEY ("id"),
   UNIQUE ("name")
-);
+); */

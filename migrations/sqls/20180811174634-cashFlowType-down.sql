@@ -1,1 +1,1 @@
-DROP TABLE "cash_flow_type";
+/* DROP TABLE "cash_flow_type"; */

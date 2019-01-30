@@ -11,7 +11,7 @@ const router  = require('express').Router(),
  * For more details, check out API docs {@link api_docs/analytics.html}
  */
 
-router.post('/', require('../middlewares/validateUser'));
+router.post('/', require('../middleware/validateUser'));
 router.post('/', async (req, res, next) => {
     let errors;
 
@@ -43,7 +43,26 @@ router.post('/', async (req, res, next) => {
     let insertedId;
 
     try {
-        insertedId = await req.app.get('core').transaction.Repo.save(transaction);
+        switch(req.body.transaction.type){
+            case 'expense':
+            console.log('--expense starts--');
+
+            console.log(transaction);
+            insertedId = await req.app.get('core').transaction.Repo.saveExpense(transaction);
+            break;
+
+            case 'income':
+            console.log('--income starts--');
+            // insertedId = await req.app.get('core').transaction.Repo.save(transaction);
+            break;
+
+            default:
+            console.log('--default starts--');
+
+            break;
+        }
+
+
     } catch (err) {
         return next(err);
     }
@@ -55,10 +74,10 @@ router.post('/', async (req, res, next) => {
 
     // update balance
     try {
-        await req.app.get('core').user.Repo.updateCurrentBalanceByUserId(
-            req.query.userId ,
-            transaction.amount
-        );
+        // await req.app.get('core').user.Repo.updateCurrentBalanceByUserId(
+        //     req.query.userId ,
+        //     transaction.amount
+        // );
     } catch (err) {
         return next(err);
     }
@@ -67,7 +86,7 @@ router.post('/', async (req, res, next) => {
     let currentBalance;
 
     try {
-        currentBalance = await req.app.get('core').user.Repo.getCurrentBalanceByUserId(req.query.userId);
+      //  currentBalance = await req.app.get('core').user.Repo.getCurrentBalanceByUserId(req.query.userId);
     } catch (err) {
         return next(err);
     }
@@ -83,6 +102,7 @@ router.post('/', async (req, res, next) => {
 
 function validateAndBuild(req, transaction) {
     const errors = [];
+    console.log(req.body)
 
     if (!req.body.transaction) {
         errors.push({
@@ -120,41 +140,20 @@ function validateAndBuild(req, transaction) {
         });
     }
 
-    if (!req.body.transaction.cashFlowTypeId) {
+    if (!req.body.transaction.type) {
         errors.push({
             'code'   : errorCode.NULL_VALUE,
-            'target' : 'cashFlowTypeId',
-            'message': 'cashFlowTypeId is required'
+            'target' : 'type',
+            'message': 'type is required'
         });
     }
 
-    if (!req.body.transaction.transactionTypeId) {
-        errors.push({
-            'code'   : errorCode.NULL_VALUE,
-            'target' : 'transactionTypeId',
-            'message': 'transactionTypeId is required'
-        });
-    }
-
-    //
-    let amount;
-
-    switch(req.body.transaction.cashFlowTypeId){
-        case 1:     // expense
-            amount = -Math.abs(req.body.transaction.amount);
-            break;
-        default:
-            amount = req.body.transaction.amount;
-    }
-
-    // avoid hitting db if there are errors
     if (!errors.length) {
         // building data
-        transaction.userId            = req.query.userId;
-        transaction.transactionDate   = req.body.transaction.transactionDate;
-        transaction.amount            = amount;
-        transaction.cashFlowTypeId    = req.body.transaction.cashFlowTypeId;
-        transaction.transactionTypeId = req.body.transaction.transactionTypeId;
+        transaction.userId          = req.query.userId;
+        transaction.transactionDate = req.body.transaction.transactionDate;
+        transaction.amount          = req.body.transaction.amount;
+        transaction.type            = req.body.transaction.type;
         transaction.touch();
     }
 
