@@ -1,15 +1,29 @@
 'use strict';
 
-const _     = require('lodash'),
+const _ = require('lodash'),
+    mysql = require('mysql'),
+    knex = require('knex'),
     modules = [
 
     ];
 
-function init(cfg){
+function init(cfg) {
     let core = {},
-        db   = {};
+        db = {
+            mysql: knex({
+                client: 'mysql',
+                connection: {
+                    host: cfg.db.mysql.host,
+                    user: cfg.db.mysql.user,
+                    password: cfg.db.mysql.password,
+                    database: cfg.db.mysql.database,
+                },
+                debug: false
+            }),
+        };
 
-    _.each(modules , (modulel) => {
+
+    _.each(modules, (modulel) => {
         core[module] = require('./' + module)(cfg, db);
     });
 

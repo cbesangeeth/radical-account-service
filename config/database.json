@@ -1,8 +1,9 @@
 {
     "dev": {
-        "driver": "pg",
+        "driver": "mysql",
         "database": "radical_db",
-        "user": "postgres",
+        "port": "3306",
+        "user": "root",
         "password": "root",
         "host": "localhost"
     },
