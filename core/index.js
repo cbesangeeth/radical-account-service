@@ -4,10 +4,11 @@ const _ = require('lodash'),
     mysql = require('mysql'),
     knex = require('knex'),
     modules = [
-
+        'expense',
     ];
 
 function init(cfg) {
+
     let core = {},
         db = {
             mysql: knex({
@@ -22,8 +23,8 @@ function init(cfg) {
             }),
         };
 
-
-    _.each(modules, (modulel) => {
+    _.each(modules, (module) => {
+        console.log(module, 'mod')
         core[module] = require('./' + module)(cfg, db);
     });
 

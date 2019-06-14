@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "Radical service",
     "scripts": {
+        "start": "NODE_ENV=production node bootstrap/api.js | bunyan",
         "start:dev": "NODE_ENV=development nodemon bootstrap/api.js | bunyan",
         "test": "NODE_ENV=development mocha --full-trace --bail --check-leaks --reporter list --timeout 80000 --recursive --exit test --reporter=list --reporter-options output=reports/TESTS-xunit.xml",
         "migrate:create": "db-migrate create $file --config config/database.json",

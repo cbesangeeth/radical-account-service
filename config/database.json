@@ -7,5 +7,13 @@
         "password": "root",
         "host": "localhost"
     },
+    "production": {
+        "driver": "mysql",
+        "database": "sql12295541",
+        "port": "3306",
+        "user": "sql12295541",
+        "password": "e9rnA8Sc61",
+        "host": "sql12.freemysqlhosting.net"
+    },
     "sql-file": true
 }
