@@ -4,7 +4,6 @@ module.exports = (cfg, db) => {
         knex = db.mysql,
         table = 'expense';
 
-
     class Expense {
         constructor() {
             this.userId = null;
@@ -31,12 +30,9 @@ module.exports = (cfg, db) => {
                 expense.description,
             ];
 
-            console.log(sql, 'exp');
-            console.log(params, 'param');
             const response = await knex.raw(sql, params);
 
-            console.log(response, 'expense core response');
-            return response.rows;
+            return response;
         }
 
     }

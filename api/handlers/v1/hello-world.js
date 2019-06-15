@@ -1,27 +1,26 @@
 'use strict';
 
-const router  = require('express').Router(),
-            _ = require('lodash');
+const router = require('express').Router(),
+    _ = require('lodash');
 
 /*
     GET API to display welcome message
 */
-router.get('/', (req, res , next) =>{
-    console.log('hello-world');
+router.get('/', (req, res, next) => {
 
     let errors;
 
     errors = validateAndBuild(req);
 
     res.api.data = {
-        hello : {
-            hi : 'Welcome,',
-            to : 'radical-service !',
+        hello: {
+            hi: 'Welcome,',
+            to: 'radical-service !',
         }
     }
 
     req.app.get('log').info('hello', _.assign(req.app.get('logEntry'), {
-        'res'   : JSON.stringify(res.api),
+        'res': JSON.stringify(res.api),
         'status': res.api.status,
     }));
 

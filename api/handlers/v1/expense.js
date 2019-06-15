@@ -1,12 +1,11 @@
 const _ = require('lodash'),
-    router = require('express').Router();
+    router = require('express').Router(),
+    validator = require('validator');
 
 router.post('/', async (req, res, next) => {
 
     // Create userDeviceInstance object
     const expense = new(req.app.get('core').expense.Expense)();
-
-    console.log(req.body, 'body');
 
     let errors = validateAndBuild(req, expense);
 
@@ -26,15 +25,11 @@ router.post('/', async (req, res, next) => {
     }
 
     // Service call to save the expense object
-    let insertedId;
     try {
-        insertedId = await req.app.get('core').expense.ExpenseRepo.save(expense);
+        await req.app.get('core').expense.ExpenseRepo.save(expense);
     } catch (err) {
         return next(err);
     }
-
-    // Setting inserted id
-    expense.id = insertedId;
 
     const response = {};
     response.expense = expense;
@@ -46,6 +41,7 @@ router.post('/', async (req, res, next) => {
     return res.json(res.api);
 
 });
+
 
 function validateAndBuild(req, expense) {
 
@@ -60,10 +56,42 @@ function validateAndBuild(req, expense) {
         return errors;
     }
 
-    if (!req.body.userId) {
+    if (!req.body.expense.userId) {
         errors.push({
             'field': 'userId',
             'message': 'Missing userId'
+        });
+    }
+
+    if (!req.body.expense.categoryId) {
+        errors.push({
+            'field': 'categoryId',
+            'message': 'Missing category id'
+        });
+    }
+
+    if (!req.body.expense.date) {
+        errors.push({
+            'field': 'date',
+            'message': 'Missing date'
+        });
+    }
+
+    if (!req.body.expense.amount) {
+        errors.push({
+            'field': 'amount',
+            'message': 'Missing amount'
+        });
+    }
+
+    if (errors.length) {
+        return errors;
+    }
+
+    if (!validator.toDate(req.body.expense.date)) {
+        errors.push({
+            'field': 'date',
+            'message': 'date should be a valid date string'
         });
     }
 
@@ -71,7 +99,8 @@ function validateAndBuild(req, expense) {
     expense.categoryId = req.body.expense.categoryId;
     expense.date = req.body.expense.date;
     expense.amount = req.body.expense.amount;
-    if (expense.description) {
+
+    if (req.body.expense.description) {
         expense.description = req.body.expense.description;
     }
 
